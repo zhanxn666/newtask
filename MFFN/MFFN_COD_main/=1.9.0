@@ -1,0 +1,137 @@
+Channels:
+ - pytorch
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+ - defaults
+Platform: linux-64
+Collecting package metadata (repodata.json): ...working... done
+Solving environment: ...working... done
+
+## Package Plan ##
+
+  environment location: /home/e706/anaconda3/envs/MFFN
+
+  added / updated specs:
+    - pytorch
+    - torchvision
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    cuda-cudart-12.4.127       |       h99ab3db_0          21 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-cudart_linux-64-12.4.127|       hd681fbe_0         207 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-cupti-12.4.127        |       h6a678d5_1         2.0 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-libraries-12.4.1      |       h06a4308_1          19 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-nvrtc-12.4.127        |       h99ab3db_1        19.8 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-nvtx-12.4.127         |       h6a678d5_1          30 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-opencl-12.4.127       |       h6a678d5_0          28 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-runtime-12.4.1        |       hb982923_0          18 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    cuda-version-12.4          |       hbda6634_3          19 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    gmp-6.3.0                  |       h6a678d5_0         608 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcublas-12.4.5.8         |       h99ab3db_1       247.6 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcufft-11.2.1.3          |       h99ab3db_1       174.5 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcufile-1.9.1.3          |       h99ab3db_1         995 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcurand-10.3.5.147       |       h99ab3db_1        42.4 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcusolver-11.6.1.9       |       h99ab3db_1        83.5 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libcusparse-12.3.1.170     |       h99ab3db_1       120.0 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libnpp-12.2.5.30           |       h99ab3db_1       100.5 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libnvfatbin-12.4.127       |       h7934f7d_2         857 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libnvjitlink-12.4.127      |       h99ab3db_1        17.4 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    libnvjpeg-12.3.1.117       |       h6a678d5_1         2.6 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    ocl-icd-2.3.2              |       h5eee18b_1         136 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    pytorch-2.4.1              |py3.8_cuda12.4_cudnn9.1.0_0        1.34 GB  pytorch
+    pytorch-cuda-12.4          |       hc786d27_7           7 KB  pytorch
+    torchvision-0.20.0         |       py38_cu124        13.2 MB  pytorch
+    ------------------------------------------------------------
+                                           Total:        2.15 GB
+
+The following NEW packages will be INSTALLED:
+
+  blas               anaconda/pkgs/main/linux-64::blas-1.0-mkl 
+  brotli-python      anaconda/pkgs/main/linux-64::brotli-python-1.0.9-py38h6a678d5_8 
+  bzip2              anaconda/pkgs/main/linux-64::bzip2-1.0.8-h5eee18b_6 
+  certifi            anaconda/pkgs/main/linux-64::certifi-2024.8.30-py38h06a4308_0 
+  charset-normalizer anaconda/pkgs/main/noarch::charset-normalizer-3.3.2-pyhd3eb1b0_0 
+  cuda-cudart        anaconda/pkgs/main/linux-64::cuda-cudart-12.4.127-h99ab3db_0 
+  cuda-cudart_linux~ anaconda/pkgs/main/noarch::cuda-cudart_linux-64-12.4.127-hd681fbe_0 
+  cuda-cupti         anaconda/pkgs/main/linux-64::cuda-cupti-12.4.127-h6a678d5_1 
+  cuda-libraries     anaconda/pkgs/main/linux-64::cuda-libraries-12.4.1-h06a4308_1 
+  cuda-nvrtc         anaconda/pkgs/main/linux-64::cuda-nvrtc-12.4.127-h99ab3db_1 
+  cuda-nvtx          anaconda/pkgs/main/linux-64::cuda-nvtx-12.4.127-h6a678d5_1 
+  cuda-opencl        anaconda/pkgs/main/linux-64::cuda-opencl-12.4.127-h6a678d5_0 
+  cuda-runtime       anaconda/pkgs/main/noarch::cuda-runtime-12.4.1-hb982923_0 
+  cuda-version       anaconda/pkgs/main/noarch::cuda-version-12.4-hbda6634_3 
+  ffmpeg             anaconda/pkgs/main/linux-64::ffmpeg-4.2.2-h20bf706_0 
+  filelock           anaconda/pkgs/main/linux-64::filelock-3.13.1-py38h06a4308_0 
+  freetype           anaconda/pkgs/main/linux-64::freetype-2.13.3-h4a9f257_0 
+  giflib             anaconda/pkgs/main/linux-64::giflib-5.2.2-h5eee18b_0 
+  gmp                anaconda/pkgs/main/linux-64::gmp-6.3.0-h6a678d5_0 
+  gmpy2              anaconda/pkgs/main/linux-64::gmpy2-2.1.2-py38heeb90bb_0 
+  gnutls             anaconda/pkgs/main/linux-64::gnutls-3.6.15-he1e5248_0 
+  idna               anaconda/pkgs/main/linux-64::idna-3.7-py38h06a4308_0 
+  intel-openmp       anaconda/pkgs/main/linux-64::intel-openmp-2023.0.0-h9e868ea_25371 
+  jinja2             anaconda/pkgs/main/linux-64::jinja2-3.1.4-py38h06a4308_0 
+  jpeg               anaconda/pkgs/main/linux-64::jpeg-9f-h5ce9db8_0 
+  lame               anaconda/pkgs/main/linux-64::lame-3.100-h7b6447c_0 
+  lcms2              anaconda/pkgs/main/linux-64::lcms2-2.16-hb9589c4_0 
+  lerc               anaconda/pkgs/main/linux-64::lerc-4.0.0-h6a678d5_0 
+  libcublas          anaconda/pkgs/main/linux-64::libcublas-12.4.5.8-h99ab3db_1 
+  libcufft           anaconda/pkgs/main/linux-64::libcufft-11.2.1.3-h99ab3db_1 
+  libcufile          anaconda/pkgs/main/linux-64::libcufile-1.9.1.3-h99ab3db_1 
+  libcurand          anaconda/pkgs/main/linux-64::libcurand-10.3.5.147-h99ab3db_1 
+  libcusolver        anaconda/pkgs/main/linux-64::libcusolver-11.6.1.9-h99ab3db_1 
+  libcusparse        anaconda/pkgs/main/linux-64::libcusparse-12.3.1.170-h99ab3db_1 
+  libdeflate         anaconda/pkgs/main/linux-64::libdeflate-1.22-h5eee18b_0 
+  libidn2            anaconda/pkgs/main/linux-64::libidn2-2.3.4-h5eee18b_0 
+  libjpeg-turbo      pytorch/linux-64::libjpeg-turbo-2.0.0-h9bf148f_0 
+  libnpp             anaconda/pkgs/main/linux-64::libnpp-12.2.5.30-h99ab3db_1 
+  libnvfatbin        anaconda/pkgs/main/linux-64::libnvfatbin-12.4.127-h7934f7d_2 
+  libnvjitlink       anaconda/pkgs/main/linux-64::libnvjitlink-12.4.127-h99ab3db_1 
+  libnvjpeg          anaconda/pkgs/main/linux-64::libnvjpeg-12.3.1.117-h6a678d5_1 
+  libopus            anaconda/pkgs/main/linux-64::libopus-1.3.1-h5eee18b_1 
+  libpng             anaconda/pkgs/main/linux-64::libpng-1.6.39-h5eee18b_0 
+  libtasn1           anaconda/pkgs/main/linux-64::libtasn1-4.20.0-ha30cf84_0 
+  libtiff            anaconda/pkgs/main/linux-64::libtiff-4.5.1-hffd6297_1 
+  libunistring       anaconda/pkgs/main/linux-64::libunistring-0.9.10-h27cfd23_0 
+  libvpx             anaconda/pkgs/main/linux-64::libvpx-1.7.0-h439df22_0 
+  libwebp            anaconda/pkgs/main/linux-64::libwebp-1.3.2-h11a3e52_0 
+  libwebp-base       anaconda/pkgs/main/linux-64::libwebp-base-1.3.2-h5eee18b_1 
+  llvm-openmp        anaconda/pkgs/main/linux-64::llvm-openmp-14.0.6-h9e868ea_0 
+  lz4-c              anaconda/pkgs/main/linux-64::lz4-c-1.9.4-h6a678d5_1 
+  markupsafe         anaconda/pkgs/main/linux-64::markupsafe-2.1.3-py38h5eee18b_0 
+  mkl                anaconda/pkgs/main/linux-64::mkl-2023.1.0-h213fc3f_46344 
+  mkl-service        anaconda/pkgs/main/linux-64::mkl-service-2.4.0-py38h5eee18b_1 
+  mkl_fft            anaconda/pkgs/main/linux-64::mkl_fft-1.3.8-py38h5eee18b_0 
+  mkl_random         anaconda/pkgs/main/linux-64::mkl_random-1.2.4-py38hdb19cb5_0 
+  mpc                anaconda/pkgs/main/linux-64::mpc-1.3.1-h5eee18b_0 
+  mpfr               anaconda/pkgs/main/linux-64::mpfr-4.2.1-h5eee18b_0 
+  mpmath             anaconda/pkgs/main/linux-64::mpmath-1.3.0-py38h06a4308_0 
+  nettle             anaconda/pkgs/main/linux-64::nettle-3.7.3-hbbd107a_1 
+  networkx           anaconda/pkgs/main/linux-64::networkx-3.1-py38h06a4308_0 
+  numpy              anaconda/pkgs/main/linux-64::numpy-1.24.3-py38hf6e8229_1 
+  numpy-base         anaconda/pkgs/main/linux-64::numpy-base-1.24.3-py38h060ed82_1 
+  ocl-icd            anaconda/pkgs/main/linux-64::ocl-icd-2.3.2-h5eee18b_1 
+  openh264           anaconda/pkgs/main/linux-64::openh264-2.1.1-h4ff587b_0 
+  openjpeg           anaconda/pkgs/main/linux-64::openjpeg-2.5.2-he7f1fd0_0 
+  pillow             anaconda/pkgs/main/linux-64::pillow-10.4.0-py38h5eee18b_0 
+  pysocks            anaconda/pkgs/main/linux-64::pysocks-1.7.1-py38h06a4308_0 
+  pytorch            pytorch/linux-64::pytorch-2.4.1-py3.8_cuda12.4_cudnn9.1.0_0 
+  pytorch-cuda       pytorch/linux-64::pytorch-cuda-12.4-hc786d27_7 
+  pytorch-mutex      pytorch/noarch::pytorch-mutex-1.0-cuda 
+  pyyaml             anaconda/pkgs/main/linux-64::pyyaml-6.0.2-py38h5eee18b_0 
+  requests           anaconda/pkgs/main/linux-64::requests-2.32.3-py38h06a4308_0 
+  sympy              anaconda/pkgs/main/linux-64::sympy-1.13.3-py38h06a4308_0 
+  tbb                anaconda/pkgs/main/linux-64::tbb-2021.8.0-hdb19cb5_0 
+  torchtriton        pytorch/linux-64::torchtriton-3.0.0-py38 
+  torchvision        pytorch/linux-64::torchvision-0.20.0-py38_cu124 
+  typing_extensions  anaconda/pkgs/main/linux-64::typing_extensions-4.11.0-py38h06a4308_0 
+  urllib3            anaconda/pkgs/main/linux-64::urllib3-2.2.3-py38h06a4308_0 
+  x264               anaconda/pkgs/main/linux-64::x264-1!157.20191217-h7b6447c_0 
+  yaml               anaconda/pkgs/main/linux-64::yaml-0.2.5-h7b6447c_0 
+  zstd               anaconda/pkgs/main/linux-64::zstd-1.5.7-h11fc155_0 
+
+
+Proceed ([y]/n)? 

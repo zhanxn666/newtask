@@ -1,0 +1,6 @@
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Requirement already satisfied: torch in /home/e706/anaconda3/envs/MFFN/lib/python3.8/site-packages (1.8.1)
+Requirement already satisfied: torchvision in /home/e706/anaconda3/envs/MFFN/lib/python3.8/site-packages (0.9.1)
+Requirement already satisfied: typing-extensions in /home/e706/anaconda3/envs/MFFN/lib/python3.8/site-packages (from torch) (4.13.2)
+Requirement already satisfied: numpy in /home/e706/anaconda3/envs/MFFN/lib/python3.8/site-packages (from torch) (1.19.2)
+Requirement already satisfied: pillow>=4.1.1 in /home/e706/anaconda3/envs/MFFN/lib/python3.8/site-packages (from torchvision) (8.1.2)

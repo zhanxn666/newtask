@@ -1,0 +1,5 @@
+# dummy_data.yaml
+train: /home/e706/zhanxiangning/newtask/yolo_mffn  # can be any existing folder
+val: /home/e706/zhanxiangning/newtask/yolo_mffn      # can be any existing folder
+nc: 4                   # number of classes (dummy)
+names: ['CPLID-defect', 'VBMBGI-defect','IDID-flashover','IDID-broken'] # class names

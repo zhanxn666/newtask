@@ -1,5 +1,16 @@
 
+scale: n
+pretrained: false
 nc: 6
+
+scales: # model compound scaling constants, i.e. 'model=yolo11n.yaml' will call yolo11.yaml with scale 'n'
+  # [depth, width, max_channels]
+  n: [0.50, 0.25, 1024] # summary: 319 layers, 2624080 parameters, 2624064 gradients, 6.6 GFLOPs
+  s: [0.50, 0.50, 1024] # summary: 319 layers, 9458752 parameters, 9458736 gradients, 21.7 GFLOPs
+  m: [0.50, 1.00, 512] # summary: 409 layers, 20114688 parameters, 20114672 gradients, 68.5 GFLOPs
+  l: [1.00, 1.00, 512] # summary: 631 layers, 25372160 parameters, 25372144 gradients, 87.6 GFLOPs
+  x: [1.00, 1.50, 512] # summary: 631 layers, 56966176 parameters, 56966160 gradients, 196.0 GFLOPs
+
 backbone:
   - [-1, 1, MFFN_YOLO_Backbone, []]           # [B,3,384,384] → [B,64,384,384]
  
@@ -8,4 +19,5 @@ head:
   # - [-1, 1, Conv2d, [64, 3, 2]]       # → [B,256,192,192]
   # - [-1, 1, Conv2d, [128, 3, 2]]      # → [B,512,96,96]
   # - [-1, 1, Conv2d, [256, 3, 2]]     # → [B,1024,48,48]
-  - [[0,0,0], 1, Detect, [nc]]           # 256@192, 512@96, 1024@48
+  # - [-1, 1, Detect, [nc]]           # 256@192, 512@96, 1024@48
+  - [[-1], 1, Detect, [nc]]           # 256@192, 512@96, 1024@48

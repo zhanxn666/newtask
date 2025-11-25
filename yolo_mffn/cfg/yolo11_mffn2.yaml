@@ -1,0 +1,19 @@
+# custom_mffn_yolo.yaml
+channels: 64  # input channels
+nc: 6
+depth_multiple: 0.33 # reduce neck depth
+width_multiple: 0.50 # reduce model width
+
+backbone:
+  # 0
+  - [-1, 1, MFFN_YOLO_Backbone, []]           # [B, 64, 384, 384]
+  # 1
+  - [-1, 1, Conv, [256, 3, 2]]       # [B, 256, 192, 192]  P3  #-[input_from, num_blocks, module, [out_channels, kernel, stride, ...]]
+  # 2
+  - [-1, 1, Conv, [512, 3, 2]]       # [B, 512, 96, 96]    P4
+  # 3
+  - [-1, 1, Conv, [1024, 3, 2]]      # [B, 1024, 48, 48]   P5
+
+head:
+  # Connect P3, P4, P5: layer indices 1, 2, 3
+  - [[1, 2, 3], 1, Detect, [nc]]  # Detect(P3, P4, P5)

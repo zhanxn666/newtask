@@ -1,0 +1,11 @@
+path: /home/e706/zhanxiangning/newtask/powerdatasets/powerdata
+train: images/test       # doesn't matter here
+val: images/test         # use test folder as validation
+nc: 6
+names:
+  0: pin-uninstall
+  1: pin-rust
+  2: pin-defect
+  3: insulator-burn
+  4: insulator-defect
+  5: insulator-dirty

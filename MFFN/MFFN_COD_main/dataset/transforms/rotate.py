@@ -39,8 +39,13 @@ class UniRotate(A.DualTransform):
         always_apply=False,
         p=0.5,
     ):
-        super(UniRotate, self).__init__(always_apply, p)
-        self.limit = A.to_tuple(limit)
+        super(UniRotate, self).__init__(always_apply=always_apply, p=p)
+        if isinstance(limit, (int, float)):
+            self.limit = (-limit, limit)
+        else:
+            self.limit = tuple(limit)
+
+        # self.limit = A.to_tuple(limit)
         self.interpolation = interpolation
         self.border_mode = border_mode
         self.value = value

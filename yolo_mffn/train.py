@@ -25,75 +25,39 @@ import torch
 from ultralytics.utils import LOGGER, RANK, nms, ops
 
 class MyValidator(DetectionValidator):
-    def _prepare_batch(self, si, batch):
+    def _prepare_batch(self, si: int, batch: dict) -> dict:
+        """Prepare a batch of images and annotations for validation.
+
+        Args:
+            si (int): Batch index.
+            batch (dict[str, Any]): Batch data containing images and annotations.
+
+        Returns:
+            (dict[str, Any]): Prepared batch with processed annotations.
+        """
         idx = batch["batch_idx"] == si
-    
-        # Get the class labels for this sample
-        cls_tensor = batch["cls"][idx]
-    
-        # Ensure cls is always 1D, never scalar
-        if cls_tensor.ndim == 0:  # scalar tensor
-            cls_tensor = cls_tensor.unsqueeze(0)
-        elif cls_tensor.ndim > 1:
-            cls_tensor = cls_tensor.squeeze(-1)
-    
+        cls = batch["cls"][idx]
+
+        # DO NOT squeeze unless you're sure last dim = 1
+        if cls.ndim > 1:
+            cls = cls.squeeze(-1)
+
         bbox = batch["bboxes"][idx]
-    
-        # Same for bboxes - ensure 2D
-        if bbox.ndim == 1 and bbox.numel() == 4:
-            bbox = bbox.unsqueeze(0)
-    
+        ori_shape = batch["ori_shape"][si]
         imgsz = batch["img"].shape[2:]
-        bbox_xyxy = ops.xywh2xyxy(bbox)
-    
+        ratio_pad = batch["ratio_pad"][si]
+        if cls.shape[0]:
+            bbox = ops.xywh2xyxy(bbox) * torch.tensor(imgsz, device=self.device)[[1, 0, 1, 0]]  # target boxes
         return {
-            "cls": cls_tensor,  # Now guaranteed to be (N,)
-            "bboxes": bbox_xyxy,  # Now guaranteed to be (N, 4)
-            "ori_shape": imgsz,
+            "cls": cls,
+            "bboxes": bbox,
+            "ori_shape": ori_shape,
             "imgsz": imgsz,
-            "ratio_pad": (0, 0, 1, 1),
+            "ratio_pad": ratio_pad,
             "im_file": batch["im_file"][si],
         }
    
     
-    # def _process_batch(self, preds, batch):
-    #     """对比预测与GT，返回TP/FP匹配情况"""
-    #     # preds: List[Tensor] per image, xyxy normalized 0~1
-    #     # batch: {"cls":..., "bboxes":..., ...}
-
-    #     pred_cls = preds["cls"]           # (Np,)
-    #     pred_boxes = preds["boxes"]       # (Np,4) (xyxy normalized 0~1)
-
-    #     gt_cls = batch["cls"]             # (Ng,)
-    #     gt_boxes = batch["bboxes"]        # (Ng,4) xyxy normalized 0~1
-
-    #     if gt_cls.numel() == 0 or pred_cls.numel() == 0:
-    #         return {
-    #             "tp": torch.zeros(0),
-    #             "fp": torch.zeros(0),
-    #             "conf": preds["conf"],
-    #             "pred_cls": pred_cls,
-    #             "gt_cls": gt_cls,
-    #         }
-
-    #     # IoU
-    #     iou = ops.box_iou(pred_boxes, gt_boxes)  # (Np,Ng)
-
-    #     # 预测匹配条件
-    #     iou_threshold = 0.5
-    #     pred2gt = iou.max(dim=1)
-
-    #     tp = (pred2gt.values > iou_threshold).float()
-    #     fp = 1 - tp
-
-    #     return {
-    #         "tp": tp,
-    #         "fp": fp,
-    #         "conf": preds["conf"],
-    #         "pred_cls": pred_cls,
-    #         "gt_cls": gt_cls,
-    #     }
-
 
 class MyTrainer(DetectionTrainer):
 
@@ -144,31 +108,7 @@ class MyTrainer(DetectionTrainer):
             batch["batch_idx"] = batch["batch_idx"].long()
 
         return batch
-        '''
-        if isinstance(batch["img"], dict):
-            # Example: {'image_c1':Tensor, 'image_o':Tensor, ...}
-            for k, v in batch["img"].items():
-                # Ensure float in 0~1 (you already normalized in dataset)
-                batch["img"][k] = v.float()
-
-        else:
-            # Default YOLO behavior
-            batch["img"] = batch["img"].float() / 255.0
-        
-        # -----------------------------
-        # 2. Move labels to float
-        # -----------------------------
-        if "bboxes" in batch:
-            batch["bboxes"] = batch["bboxes"].float()
-
-        if "cls" in batch:
-            batch["cls"] = batch["cls"].long()
-
-        if "batch_idx" in batch:
-            batch["batch_idx"] = batch["batch_idx"].long()
-
-        return batch
-        '''
+           
     # --------------------------------------------
     # Override YOLO's default dataloader
     # --------------------------------------------
@@ -176,7 +116,7 @@ class MyTrainer(DetectionTrainer):
         if split == "train":
             return InfiniteDataLoader(
                 self.train_dataset,
-                batch_size=8,  # use YOLO batch_size if provided
+                batch_size=kwargs.get('batch_size', 4),  # use YOLO batch_size if provided
                 shuffle=kwargs.get('shuffle', True),
                 num_workers=kwargs.get('num_workers', 8),
                 collate_fn=mffn_yolo_collate_fn,
@@ -187,8 +127,7 @@ class MyTrainer(DetectionTrainer):
         else:  # validation
             return InfiniteDataLoader(
                 self.val_dataset,
-                # batch_size=kwargs.get('batch_size', 4),
-                batch_size=8,
+                batch_size=kwargs.get('batch_size', 4),
                 shuffle=kwargs.get('shuffle', False),
                 num_workers=kwargs.get('num_workers', 8),
                 collate_fn=mffn_yolo_collate_fn,
@@ -230,24 +169,6 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------
     # 2. Build datasets
     # ----------------------------------------------------------------------
-    '''
-train_dataset = YOLODataset(
-    root=[
-        (ROOT_IMGS, {"image": {"path": data_cfg["train"], "suffix": ".jpg"}})
-    ],
-    shape={"h": IMGSZ, "w": IMGSZ},
-    label_dir=TRAIN_LABEL_DIR,
-)
-print(f"train_dataset: {train_dataset}")
-val_dataset = YOLODataset(
-    root=[
-        (ROOT_IMGS, {"image": {"path": data_cfg["val"], "suffix": ".jpg"}})
-    ],
-    shape={"h": IMGSZ, "w": IMGSZ},
-    label_dir=VAL_LABEL_DIR,
-)
-print(f"val_dataset: {val_dataset}")
-    '''
     train_dataset = MFFN_YOLO_Dataset(
         root=[
         (ROOT_IMGS, {"image": {"path": data_cfg["train"], "suffix": ".jpg"}})
@@ -264,27 +185,6 @@ print(f"val_dataset: {val_dataset}")
         label_dir=VAL_LABEL_DIR,
     )
     print(f"val_dataset: {val_dataset}")
-
-    '''
-train_loader = DataLoader(
-    train_dataset,
-    batch_size=4,                # 5-view → keep small
-    shuffle=True,
-    num_workers=8,
-    collate_fn=mffn_yolo_collate_fn,
-    pin_memory=True,
-)
-print(f"train_loader: {train_loader}")
-val_loader = DataLoader(
-    val_dataset,
-    batch_size=4,
-    shuffle=False,
-    num_workers=8,
-    collate_fn=mffn_yolo_collate_fn,
-    pin_memory=True,
-)
-print(f"val_loader: {val_loader}")
-    '''
     # ----------------------------------------------------------------------
     # 3. Load model (YAML defines MFFN_YOLO_Backbone + Detect head)
     # ----------------------------------------------------------------------
@@ -306,6 +206,10 @@ print(f"val_loader: {val_loader}")
     model = YOLO(MODEL_CFG)
     model.model.load = False        # ← stop loading pretrained
     model.overrides['pretrained'] = False
+    
+    # Add this after model creation
+    print("Model configuration:")
+    print(model.model.yaml)  # This shows the actual config being used
 
     device = 0 if torch.cuda.is_available() else "cpu"
     print(f"Training on: {torch.cuda.get_device_name(device) if device != 'cpu' else 'CPU'}")
@@ -336,6 +240,51 @@ print(f"val_loader: {val_loader}")
         overrides={},
     )
 
+    # #debug
+    # # Dummy input: batch=1, 15 channels, 384x384
+    # x = torch.randn(1, 15, 384, 384).to(device=device)
+
+    # # Forward step by step
+    # out = x
+    # def iterate_yolo_layers(model_module):
+    #     """递归遍历YOLO模型的所有层（处理嵌套Sequential/List）"""
+    #     layers = []
+    #     if isinstance(model_module, (torch.nn.Sequential, list, tuple)):
+    #         for sub_module in model_module:
+    #             layers.extend(iterate_yolo_layers(sub_module))
+    #     elif isinstance(model_module, torch.nn.Module) and not isinstance(model_module, type(model.model)):
+    #         # 排除DetectionModel本身，只保留实际的网络层
+    #         layers.append(model_module)
+    #     return layers
+
+    # # 4. 获取所有可执行的层并逐层前向
+    # all_layers = iterate_yolo_layers(model.model.model)  # 核心：拆解嵌套层
+    # tem_list = []
+    # for i, layer in enumerate(all_layers):
+    #     try:
+    #         # 禁用梯度计算（加速+避免显存占用）
+    #         with torch.no_grad():
+    #             # 打印层信息+输出形状
+    #             layer_name = layer.__class__.__name__
+    #             if layer_name == "Detect":
+    #                 out = layer([tem_list[1],tem_list[2],tem_list[3]])
+    #                 print(f"Layer {i:2d} | {layer_name:<20} | Output is a list with length {len(out)}")
+    #                 # print("predict:",out)
+    #             else:
+    #                 out = layer(out)
+    #                 print(f"Layer {i:2d} | {layer_name:<20} | Output shape: {tuple(out.shape)}")
+    #             tem_list.append(out)
+            
+            
+            
+    #     except Exception as e:
+    #         # 处理特殊层（如Detect层需要特定输入格式）
+    #         print(f"Layer {i:2d} | {layer.__class__.__name__:<20} | Error: {str(e)}")
+    #         break  # 遇到错误时停止遍历（可选）
+    # print("temp_list[0]:",tem_list[0].shape)
+    # print("temp_list[1]:",tem_list[1].shape)
+    # print("temp_list[2]:",tem_list[2].shape)
+    # print("temp_list[3]:",tem_list[3].shape)
     trainer.train()
 '''
 from ultralytics.models.yolo.detect import DetectionTrainer

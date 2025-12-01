@@ -47,9 +47,12 @@ class MFFN_YOLO_Backbone(nn.Module):
             return torch.zeros(B, 3, 384, 384, device=device, dtype=dtype)
 
         '''
+
+        # print("[FORWARD INPUT SHAPE]", x.shape)
+
         if x.shape[1] != 15:
-            print(f"[MFFN_YOLO_Backbone] Dummy input detected, returning compatible features")
-            print("dummy tensor:",x)
+        #     print(f"[MFFN_YOLO_Backbone] Dummy input detected, returning compatible features")
+        #     print("dummy tensor shape:",x.shape)
         # Return features with the same spatial dimensions but correct channels
         # that your MFFN normally outputs
 
@@ -59,8 +62,9 @@ class MFFN_YOLO_Backbone(nn.Module):
             # Return dummy features that match what MFFN would output
             return torch.zeros(B, 64, 384, 384, device=device, dtype=dtype)  # Match your MFFN output channels
         
+        # print(">>>>>using main branch not dummy return tensor>>>>>")
         # TRAINING: Real 5-view dict
-        print("x.shape:",x.shape)
+        # print("x.shape:",x.shape)
         # c1 = x["image_c1"]
         # o  = x["image_o"]
         # c2 = x["image_c2"]
@@ -71,14 +75,14 @@ class MFFN_YOLO_Backbone(nn.Module):
         c2 = x[:, 6:9, :, :]   # (B, 3, 384, 384) → 视角2
         a1 = x[:, 9:12, :, :]  # (B, 3, 384, 384) → 辅助视角1
         a2 = x[:, 12:15, :, :] # (B, 3, 384, 384) → 辅助视角2
-        print(f"c1 shape: {tuple(c1.shape)}")
-        print(f"o shape: {tuple(o.shape)}")
-        print(f"c2 shape: {tuple(c2.shape)}")
-        print(f"a1 shape: {tuple(a1.shape)}")
-        print(f"a2 shape: {tuple(a2.shape)}")
+        # print(f"c1 shape: {tuple(c1.shape)}")
+        # print(f"o shape: {tuple(o.shape)}")
+        # print(f"c2 shape: {tuple(c2.shape)}")
+        # print(f"a1 shape: {tuple(a1.shape)}")
+        # print(f"a2 shape: {tuple(a2.shape)}")
         out = self.mffn.body(c1, o, c2, a1, a2)
         dec = out['final_features']
-        print(f"[MFFN_YOLO_Backbone] MFFN output feature shape: {tuple(dec.shape)}")
+        # print(f"[MFFN_YOLO_Backbone] MFFN output feature shape: {tuple(dec.shape)}")
         return dec
         
         # else:

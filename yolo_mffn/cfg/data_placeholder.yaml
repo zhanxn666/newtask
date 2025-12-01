@@ -1,5 +1,20 @@
-# dummy_data.yaml
-train: /home/e706/zhanxiangning/newtask/yolo_mffn  # can be any existing folder
-val: /home/e706/zhanxiangning/newtask/yolo_mffn      # can be any existing folder
-nc: 4                   # number of classes (dummy)
-names: ['CPLID-defect', 'VBMBGI-defect','IDID-flashover','IDID-broken'] # class names
+# # dummy_data.yaml
+# train: /home/e706/zhanxiangning/newtask/yolo_mffn  # can be any existing folder
+# val: /home/e706/zhanxiangning/newtask/yolo_mffn      # can be any existing folder
+# nc: 4                   # number of classes (dummy)
+# names: ['CPLID-defect', 'VBMBGI-defect','IDID-flashover','IDID-broken'] # class names
+
+# Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
+path: /home/e706/zhanxiangning/newtask/powerdatasets/publicallpower/images  # dataset root dir
+train: train  # train images (relative to 'path') 128 images
+test: test # test images (optional)
+val: val   # val images (relative to 'path') 128 images
+# target: train
+####  Classes -- powerdata
+
+nc: 4  # number of classes
+names:
+  - 'CPLID-defect'
+  - 'VBMBGI-defect'
+  - 'IDID-flashover'
+  - 'IDID-broken'

@@ -5,14 +5,14 @@
 
 # Required
 task: detect
-model: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/yolo11_mffn.yaml    # your model yaml
+model: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/yolo11_mffn2.yaml    # your model yaml
 data: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/data_placeholder.yaml  # ignored because you override dataloader
 
 # Training
-epochs: 5
-batch: 2            # ← Let *your custom dataloader* decide batch size
-imgsz: 640
-optimizer: auto
+epochs: 10
+batch: 2           # ← Let *your custom dataloader* decide batch size
+imgsz: 384
+optimizer: SGD
 
 # Device
 device: 0            # or "cuda:0"

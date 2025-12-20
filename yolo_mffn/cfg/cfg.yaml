@@ -9,7 +9,7 @@ model: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/yolo11_mffn2.yaml    # you
 data: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/data_placeholder.yaml  # ignored because you override dataloader
 
 # Training
-epochs: 10
+epochs: 200
 batch: 2           # ← Let *your custom dataloader* decide batch size
 imgsz: 384
 optimizer: SGD

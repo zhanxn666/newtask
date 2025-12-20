@@ -1,12 +1,12 @@
 # custom_mffn_yolo.yaml
-channels: 64  # input channels
+ch: 15  # input channels
 nc: 4
 depth_multiple: 0.33 # reduce neck depth
 width_multiple: 1.0 # reduce model width
 
 backbone:
   # 0
-  - [-1, 1, MFFN_YOLO_Backbone, []]           # [B, 64, 384, 384]
+  - [-1, 1, MFFN_YOLO_Backbone, [64]]           # [B, 64, 384, 384]
   
 
 head:

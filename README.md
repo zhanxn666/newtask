@@ -36,7 +36,7 @@ ultralytics
 4. Training & Validation:
 
 
-run train.py to train the model, don't forget to change the dataset path(in /cfg/cfg.yaml) to your own dataset path and change nc to match your dataset in yolo_mffn2.yaml. You can change the configurations in cfg.yaml.
+run train.py to train the model, don't forget to change the dataset path(in /cfg/cfg.yaml) to your own dataset path and change nc to match your dataset in yolo11_mffn2.yaml. You can change the configurations in cfg.yaml.
 
 6. Important note:
 

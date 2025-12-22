@@ -6,10 +6,10 @@
 # Required
 task: detect
 model: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/yolo11_mffn2.yaml    # your model yaml
-data: /home/e706/zhanxiangning/newtask/yolo_mffn/cfg/data_placeholder.yaml  # ignored because you override dataloader
+data: /home/e706/zhanxiangning/newtask/powerdatasets/VisDrone-Det.yaml
 
 # Training
-epochs: 200
+epochs: 1
 batch: 2           # ← Let *your custom dataloader* decide batch size
 imgsz: 384
 optimizer: SGD

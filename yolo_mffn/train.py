@@ -71,7 +71,12 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------
     # 1. Load powerdata.yaml  (contains path, train/val splits, classes)
     # ----------------------------------------------------------------------
-    DATA_YAML = "/home/e706/zhanxiangning/newtask/powerdatasets/publicallpower.yaml"
+    cfg_path = "/home/e706/zhanxiangning/newtask/yolo_mffn/cfg/cfg.yaml"
+    with open(cfg_path, "r") as f:
+        cfg = yaml.safe_load(f)
+
+    DATA_YAML = cfg["data"]   # ← this is the key
+
     with open(DATA_YAML, "r") as f:
         data_cfg = yaml.safe_load(f)
 
@@ -125,10 +130,9 @@ if __name__ == '__main__':
 
     # 然后用你的自定义 YAML 替换 backbone（head 保持预训练）
     model = YOLO(MODEL_CFG)  # 你的 yolo11_mffn2.yaml
-    model = model.load("yolo11n.pt")  # 加载预训练权重
+    model.overrides["pretrained"] = False
 
-    # model.model.load = False        # ← stop loading pretrained
-    # model.overrides['pretrained'] = False
+
     
     # Add this after model creation
     print("Model configuration:")
@@ -158,7 +162,7 @@ if __name__ == '__main__':
     trainer = MyTrainer(
         train_dataset=train_dataset,
         val_dataset=val_dataset,
-        cfg="/home/e706/zhanxiangning/newtask/yolo_mffn/cfg/cfg.yaml",
+        cfg=cfg_path,
         custom_model=model,
         overrides={},
     )

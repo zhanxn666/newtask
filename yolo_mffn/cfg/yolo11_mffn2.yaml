@@ -1,6 +1,6 @@
 # custom_mffn_yolo.yaml
 ch: 15  # input channels
-nc: 4
+nc: 10  # number of classes
 depth_multiple: 0.33 # reduce neck depth
 width_multiple: 1.0 # reduce model width
 
